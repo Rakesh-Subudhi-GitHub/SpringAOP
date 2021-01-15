@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+<!-- config target class -->
+<bean id="showRoom" class="com.rk.service.CarShowRoom"/>
+
+<!-- config aspect class as Spring bean -->
+<bean id="testDriveAspect" class="com.rk.aspect.TestDriveAuditeAspect"/>
+
+			<!-- enable AspectAop  -->
+					<aop:config>
+							<!-- Write POINTCUT expression-->
+								
+								<!-- <aop:pointcut expression="execution(java.lang.String com.rk.service.CarShowRoom.sales(..))" id="ptc"/> -->
+																																							<!-- SALE is method in CarShowRoom class -->
+								
+								<aop:pointcut expression="execution(java.lang.String com.rk.service.CarShowRoom.sales(..)) and args(model,price,executive)" id="ptc"/>
+																																								
+												<!-- Configure spring bean as aspectjAOP advice class -->
+												<aop:aspect ref="testDriveAspect">
+														<aop:before method="testDrive" pointcut-ref="ptc"/>  <!-- method in before runing the class execute fast this method -->
+												</aop:aspect>
+							</aop:config>
+</beans>
